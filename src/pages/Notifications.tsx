@@ -8,7 +8,6 @@ export default function Notifications() {
       <p className="muted">Souscrivez aux catégories qui vous intéressent.</p>
       <div className="spacer" />
       <div className="row">
-        <label><input type="checkbox" checked={topics.tournaments} onChange={() => toggleTopic('tournaments')} /> Tournois</label>
         <label><input type="checkbox" checked={topics.events} onChange={() => toggleTopic('events')} /> Events BMS</label>
         <label><input type="checkbox" checked={topics.news} onChange={() => toggleTopic('news')} /> News</label>
         <label><input type="checkbox" checked={topics.lives} onChange={() => toggleTopic('lives')} /> Lives</label>
@@ -22,4 +21,3 @@ export default function Notifications() {
     </div>
   )
 }
-

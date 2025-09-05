@@ -4,11 +4,6 @@ export default function Home() {
   return (
     <div className="card-grid">
       <div className="card">
-        <h3>Tournois</h3>
-        <p className="muted">Rejoindre/voir des tournois, calendrier, classement.</p>
-        <Link className="btn" to="/tournaments">Ouvrir</Link>
-      </div>
-      <div className="card">
         <h3>BMS Talents</h3>
         <p className="muted">Agence talents: graphisme, montage, dev...</p>
         <Link className="btn" to="/talents">Ouvrir</Link>
@@ -20,13 +15,13 @@ export default function Home() {
       </div>
       <div className="card">
         <h3>Notifications</h3>
-        <p className="muted">S'abonner: tournois, events BMS, news, lives.</p>
+        <p className="muted">S'abonner: events BMS, news, lives.</p>
         <Link className="btn" to="/notifications">Configurer</Link>
       </div>
       <div className="card">
         <h3>Boutique</h3>
         <p className="muted">Merch officiel BMS (lien externe).</p>
-        <a className="btn" href="https://shop.bms.example" target="_blank" rel="noreferrer">Visiter</a>
+        <a className="btn" href="https://thebmscrew.com/" target="_blank" rel="noreferrer">Visiter</a>
       </div>
     </div>
   )

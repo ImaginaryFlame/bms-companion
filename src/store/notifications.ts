@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 
 type Topics = {
-  tournaments: boolean
   events: boolean
   news: boolean
   lives: boolean
@@ -20,7 +19,6 @@ type Actions = {
 }
 
 const initialTopics: Topics = {
-  tournaments: true,
   events: true,
   news: false,
   lives: true,
@@ -34,4 +32,3 @@ export const useNotificationsStore = create<State & Actions>((set) => ({
   markAllRead: () => set({ unread: 0 }),
   toggleTopic: (key) => set(s => ({ topics: { ...s.topics, [key]: !s.topics[key] } })),
 }))
-

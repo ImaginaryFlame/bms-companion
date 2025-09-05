@@ -1,6 +1,8 @@
 # BMS Companion (squelette)
 
- Squelette minimal Vite + React + TypeScript pour construire le hub BMS (tournois, Talents, notifications, Has Joel Streamed Today).
+Squelette minimal Vite + React + TypeScript pour construire le hub BMS (Talents, notifications, Has Joel Streamed Today).
+
+Monorepo: le projet mobile (Expo/React Native) est rangé sous `apps/mobile`.
 
 ## Démarrage
 
@@ -10,11 +12,22 @@
 
 ## Structure
 
-- `src/pages`: pages du hub (Home, Tournaments, Talents, HasJoelStreamedToday, Notifications)
+- `src/pages`: pages du hub (Home, Talents, HasJoelStreamedToday, Notifications)
 - `src/components`: composants UI (NavBar, NotificationBell, LiveBadge, etc.)
-- `src/services`: services et intégrations (Twitch/Helix, notifications, tournois)
+- `src/services`: services et intégrations (Twitch/Helix, notifications)
 - `src/store`: état global (zustand)
 
- Ce repo ne contient que des stubs; reportez-vous au tutoriel dans la discussion pour l'implémentation complète.
+Ce repo ne contient que des stubs; reportez-vous au tutoriel dans la discussion pour l'implémentation complète.
 
- Remarque: la page BMS Tracker a été retirée de ce squelette à ta demande. Intègre ton tracker existant ultérieurement si nécessaire.
+Remarque: la section Tournois a été retirée à ta demande. La page BMS Tracker avait aussi été retirée précédemment; intègre ton tracker existant ultérieurement si nécessaire.
+
+## Mobile (Android) - apps/mobile
+
+- Dossier: `apps/mobile`
+- Installer: `cd apps/mobile && npm install`
+- Dev (Expo Go): `npx expo start`
+- Build dev Android: `npx expo run:android`
+- Build prod (EAS): `eas build -p android`
+
+Si tu avais un dossier `bms-companion-mobile` ouvert dans un éditeur, ferme-le puis supprime-le. Nous avons copié le contenu vers `apps/mobile`. Si la suppression échoue sur Windows (fichiers verrouillés), redémarre l'IDE/terminal puis supprime.
+
