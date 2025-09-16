@@ -9,14 +9,9 @@ export default function Home() {
         <Link className="btn" to="/talents">Ouvrir</Link>
       </div>
       <div className="card">
-        <h3>Has Joel Streamed Today</h3>
+        <h3>Has Joel Streamed Today? - Infinity</h3>
         <p className="muted">Suivre si Joel est en live, avec un twist.</p>
-        <Link className="btn" to="/has-joel">Ouvrir</Link>
-      </div>
-      <div className="card">
-        <h3>Notifications</h3>
-        <p className="muted">S'abonner: events BMS, news, lives.</p>
-        <Link className="btn" to="/notifications">Configurer</Link>
+        <Link className="btn" to="/has-joel-infinity">Ouvrir</Link>
       </div>
       <div className="card">
         <h3>Boutique</h3>

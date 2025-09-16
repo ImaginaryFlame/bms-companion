@@ -18,6 +18,7 @@ export type LiveDetails = {
 
 const TWITCH_TOKEN_URL = 'https://id.twitch.tv/oauth2/token'
 const TWITCH_API = 'https://api.twitch.tv/helix'
+import { FALLBACK_TWITCH_CLIENT_ID, FALLBACK_TWITCH_CLIENT_SECRET } from '@/config/fallbackTwitch'
 
 async function fetchJson(url: string, init: RequestInit = {}) {
   const res = await fetch(url, init)
@@ -38,10 +39,11 @@ function parseDurationToMinutes(duration: string): number {
 
 export class LiveService {
   static async getAccessToken(): Promise<string> {
-    const clientId = import.meta.env.VITE_TWITCH_CLIENT_ID as string | undefined
-    const clientSecret = import.meta.env.VITE_TWITCH_CLIENT_SECRET as string | undefined
+    let clientId = import.meta.env.VITE_TWITCH_CLIENT_ID as string | undefined
+    let clientSecret = import.meta.env.VITE_TWITCH_CLIENT_SECRET as string | undefined
     if (!clientId || !clientSecret) {
-      throw new Error('VITE_TWITCH_CLIENT_ID/SECRET manquants. Configurez .env')
+      clientId = clientId || FALLBACK_TWITCH_CLIENT_ID
+      clientSecret = clientSecret || FALLBACK_TWITCH_CLIENT_SECRET
     }
     const body = new URLSearchParams({
       client_id: clientId,
@@ -56,8 +58,13 @@ export class LiveService {
     return data.access_token as string
   }
 
+  static getClientId(): string {
+    const envId = import.meta.env.VITE_TWITCH_CLIENT_ID as string | undefined
+    return envId || FALLBACK_TWITCH_CLIENT_ID
+  }
+
   static async getUser(accessToken: string, login: string) {
-    const clientId = import.meta.env.VITE_TWITCH_CLIENT_ID as string
+    const clientId = this.getClientId()
     const data = await fetchJson(`${TWITCH_API}/users?login=${encodeURIComponent(login)}`, {
       headers: { 'Client-ID': clientId, Authorization: `Bearer ${accessToken}` },
     })
@@ -67,7 +74,7 @@ export class LiveService {
   }
 
   static async getStreams(accessToken: string, userId: string) {
-    const clientId = import.meta.env.VITE_TWITCH_CLIENT_ID as string
+    const clientId = this.getClientId()
     const data = await fetchJson(`${TWITCH_API}/streams?user_id=${encodeURIComponent(userId)}`, {
       headers: { 'Client-ID': clientId, Authorization: `Bearer ${accessToken}` },
     })
@@ -75,7 +82,7 @@ export class LiveService {
   }
 
   static async getVideosLast30Days(accessToken: string, userId: string) {
-    const clientId = import.meta.env.VITE_TWITCH_CLIENT_ID as string
+    const clientId = this.getClientId()
     const endDate = new Date()
     const startDate = new Date()
     startDate.setDate(startDate.getDate() - 30)

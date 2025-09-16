@@ -1,6 +1,6 @@
 # BMS Companion (squelette)
 
-Squelette minimal Vite + React + TypeScript pour construire le hub BMS (Talents, notifications, Has Joel Streamed Today).
+Squelette minimal Vite + React + TypeScript pour construire le hub BMS (Talents, Has Joel Streamed Today).
 
 Monorepo: le projet mobile (Expo/React Native) est rangé sous `apps/mobile`.
 
@@ -12,10 +12,10 @@ Monorepo: le projet mobile (Expo/React Native) est rangé sous `apps/mobile`.
 
 ## Structure
 
-- `src/pages`: pages du hub (Home, Talents, HasJoelStreamedToday, Notifications)
-- `src/components`: composants UI (NavBar, NotificationBell, LiveBadge, etc.)
-- `src/services`: services et intégrations (Twitch/Helix, notifications)
-- `src/store`: état global (zustand)
+- `src/pages`: pages du hub (Home, Talents, HasJoelStreamedToday)
+- `src/components`: composants UI (NavBar, LiveBadge, etc.)
+- `src/services`: services et intégrations (Twitch/Helix)
+- `src/store`: état global (le store Notifications a été retiré)
 
 Ce repo ne contient que des stubs; reportez-vous au tutoriel dans la discussion pour l'implémentation complète.
 
@@ -30,4 +30,3 @@ Remarque: la section Tournois a été retirée à ta demande. La page BMS Tracke
 - Build prod (EAS): `eas build -p android`
 
 Si tu avais un dossier `bms-companion-mobile` ouvert dans un éditeur, ferme-le puis supprime-le. Nous avons copié le contenu vers `apps/mobile`. Si la suppression échoue sur Windows (fichiers verrouillés), redémarre l'IDE/terminal puis supprime.
-
