@@ -30,7 +30,16 @@ body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.4 syst
 .badge.live { background: #17c964; color: #002b1c; }
 .badge.offline { background: #ff4d4f; color: #2a0506; }
 
-.pub-page { display: flex; flex-direction: column; gap: 24px; }
+.gacha-banner { display: block; position: relative; overflow: hidden; padding: 32px; border-radius: 18px; border: 1px solid rgba(100, 181, 246, 0.5); background: radial-gradient(circle at 78% 12%, rgba(142, 36, 170, 0.35), transparent 55%), linear-gradient(135deg, rgba(7, 26, 45, 0.92), rgba(12, 40, 68, 0.92)); box-shadow: 0 14px 40px rgba(7, 17, 35, 0.45); text-decoration: none; color: var(--text); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.gacha-banner::before { content: ''; position: absolute; inset: -20%; background: radial-gradient(circle at 20% 20%, rgba(100, 181, 246, 0.45), transparent 60%); opacity: 0.7; pointer-events: none; z-index: 0; }
+.gacha-banner > * { position: relative; z-index: 1; }
+.gacha-banner:hover { transform: translateY(-4px); box-shadow: 0 18px 48px rgba(7, 17, 35, 0.55); }
+.gacha-banner .eyebrow { display: inline-block; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(100, 181, 246, 0.7); font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; background: rgba(16, 38, 60, 0.75); margin-bottom: 12px; }
+.gacha-banner h1 { margin: 0 0 12px; font-size: 26px; }
+.gacha-banner p { margin: 0 0 18px; max-width: 520px; color: var(--muted); }
+.gacha-banner .cta { display: inline-block; padding: 10px 18px; border-radius: 999px; background: var(--accent-2); color: #fff; font-weight: 700; letter-spacing: 0.4px; transition: background 0.25s ease, transform 0.25s ease; }
+.gacha-banner:hover .cta { background: #a93fd0; transform: translateX(4px); }
+.home-sections { display: flex; flex-direction: column; gap: 24px; }
 .streamer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-top: 16px; }
 .streamer-card { background: rgba(12, 22, 32, 0.85); border: 1px solid #1f2f3f; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .muted.small { font-size: 12px; }
@@ -38,3 +47,10 @@ body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.4 syst
 .promo-banner h3 { margin: 0 0 4px; }
 .promo-banner p { margin: 0; max-width: 520px; }
 .promo-banner .btn { background: var(--accent-2); color: #fff; }
+
+
+.gacha-banner-wrapper { position: relative; }
+.banner-indicators { position: absolute; right: 24px; bottom: 20px; display: flex; gap: 8px; }
+.banner-indicators .dot { width: 10px; height: 10px; border-radius: 999px; border: 1px solid rgba(100, 181, 246, 0.7); background: rgba(15, 38, 60, 0.6); padding: 0; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease; }
+.banner-indicators .dot.active { background: var(--accent); transform: scale(1.2); }
+.banner-indicators .dot:hover { background: rgba(100, 181, 246, 0.8); }
