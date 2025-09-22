@@ -30,3 +30,11 @@ body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.4 syst
 .badge.live { background: #17c964; color: #002b1c; }
 .badge.offline { background: #ff4d4f; color: #2a0506; }
 
+.pub-page { display: flex; flex-direction: column; gap: 24px; }
+.streamer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-top: 16px; }
+.streamer-card { background: rgba(12, 22, 32, 0.85); border: 1px solid #1f2f3f; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.muted.small { font-size: 12px; }
+.promo-banner { background: linear-gradient(135deg, rgba(100, 181, 246, 0.18), rgba(142, 36, 170, 0.22)); border: 1px solid rgba(100, 181, 246, 0.4); border-radius: 14px; padding: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; justify-content: space-between; }
+.promo-banner h3 { margin: 0 0 4px; }
+.promo-banner p { margin: 0; max-width: 520px; }
+.promo-banner .btn { background: var(--accent-2); color: #fff; }

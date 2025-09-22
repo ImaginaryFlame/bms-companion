@@ -1,7 +1,7 @@
 /**
- * LiveService: intégration Twitch (Helix)
- * Implémente l'authent OAuth client_credentials et la récupération d'infos live.
- * ATTENTION: Ne pas exposer le client_secret en production. Préférez un proxy backend.
+ * LiveService: integration Twitch (Helix)
+ * Implements client_credentials OAuth flow and exposes helpers to fetch live details.
+ * WARNING: Never ship client_secret in production, prefer a backend proxy.
  */
 
 export type MonthlyTime = { hours: number; minutes: number }
@@ -14,6 +14,12 @@ export type LiveDetails = {
   streamThumbnail?: string
   lastStreamAt?: string
   monthlyStreamTime?: MonthlyTime
+}
+
+export type LiveDetailsBatchItem = {
+  login: string
+  details?: LiveDetails
+  error?: string
 }
 
 const TWITCH_TOKEN_URL = 'https://id.twitch.tv/oauth2/token'
@@ -35,6 +41,15 @@ function parseDurationToMinutes(duration: string): number {
   const m = parseInt(/(\d+)m/.exec(duration)?.[1] ?? '0', 10)
   const s = parseInt(/(\d+)s/.exec(duration)?.[1] ?? '0', 10)
   return h * 60 + m + Math.floor(s / 60)
+}
+
+function computeMonthlyTime(videos: Array<{ duration: string }>): MonthlyTime {
+  let totalMinutes = 0
+  for (const v of videos) totalMinutes += parseDurationToMinutes(v.duration || '0h0m0s')
+  return {
+    hours: Math.floor(totalMinutes / 60),
+    minutes: Math.floor(totalMinutes % 60),
+  }
 }
 
 export class LiveService {
@@ -93,42 +108,68 @@ export class LiveService {
     return data.data as Array<{ created_at: string; duration: string }>
   }
 
-  static async getDetails(userLogin: string): Promise<LiveDetails> {
-    // NOTE: En production, remplacez par un endpoint backend qui gère token + cache
-    const token = await this.getAccessToken()
-    const user = await this.getUser(token, userLogin)
-
-    const streams = await this.getStreams(token, user.id)
-    const stream = streams?.[0]
+  private static mapDetails(
+    user: { id: string; login: string; display_name: string; profile_image_url: string },
+    stream: { id: string; title: string; started_at: string; thumbnail_url: string } | undefined,
+    videos: Array<{ created_at: string; duration: string }>,
+  ): LiveDetails {
     const live = !!stream
-
     let streamThumbnail: string | undefined
     if (stream?.thumbnail_url) {
       streamThumbnail = stream.thumbnail_url.replace('{width}', '640').replace('{height}', '360')
     }
 
-    const videos = await this.getVideosLast30Days(token, user.id)
-    let lastStreamAt: string | undefined
-    let monthlyTotalMinutes = 0
-    if (videos && videos.length) {
-      lastStreamAt = videos[0]?.created_at
-      for (const v of videos) monthlyTotalMinutes += parseDurationToMinutes(v.duration || '0h0m0s')
-    }
-    const monthlyStreamTime: MonthlyTime | undefined = {
-      hours: Math.floor(monthlyTotalMinutes / 60),
-      minutes: Math.floor(monthlyTotalMinutes % 60),
-    }
+    const monthlyStreamTime = videos.length ? computeMonthlyTime(videos) : undefined
+    const lastStreamAt = videos[0]?.created_at
 
     return {
       live,
       title: stream?.title,
       startedAt: stream?.started_at,
-      streamer: { id: user.id, login: user.login, displayName: user.display_name, avatarUrl: user.profile_image_url },
+      streamer: {
+        id: user.id,
+        login: user.login,
+        displayName: user.display_name,
+        avatarUrl: user.profile_image_url,
+      },
       streamUrl: `https://twitch.tv/${user.login}`,
       streamThumbnail,
       lastStreamAt,
       monthlyStreamTime,
     }
+  }
+
+  private static async getDetailsWithToken(accessToken: string, userLogin: string): Promise<LiveDetails> {
+    const user = await this.getUser(accessToken, userLogin)
+    const [streams, videos] = await Promise.all([
+      this.getStreams(accessToken, user.id),
+      this.getVideosLast30Days(accessToken, user.id),
+    ])
+    const stream = streams?.[0]
+    return this.mapDetails(user, stream, videos ?? [])
+  }
+
+  static async getDetails(userLogin: string): Promise<LiveDetails> {
+    const token = await this.getAccessToken()
+    return this.getDetailsWithToken(token, userLogin)
+  }
+
+  static async getDetailsBatch(logins: string[]): Promise<LiveDetailsBatchItem[]> {
+    if (!logins.length) return []
+    const token = await this.getAccessToken()
+    const results = await Promise.all(
+      logins.map(async (login) => {
+        try {
+          const details = await this.getDetailsWithToken(token, login)
+          return { login, details }
+        } catch (error) {
+          console.warn('LiveService.getDetailsBatch error', login, error)
+          const message = error instanceof Error ? error.message : 'Erreur inconnue'
+          return { login, error: message }
+        }
+      }),
+    )
+    return results
   }
 
   static async isLive(userLogin: string): Promise<{ live: boolean }> {

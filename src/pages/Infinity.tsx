@@ -31,7 +31,7 @@ export default function InfinityPage() {
 
   useEffect(() => { refresh() }, [])
 
-  // infinity: rafraîchir l'affichage du temps écoulé (1s)
+  // infinity: rafraichir l'affichage du temps ecoule (1s)
   useEffect(() => {
     const id = setInterval(() => {
       if (!status.lastStreamAt) return
@@ -60,7 +60,7 @@ export default function InfinityPage() {
     'https://placebear.com/640/320',
   ]
   const reasons = [
-    'Réunion secrète BMSCrew',
+    'Reunion secrete BMSCrew',
     'Grinding off-stream pour la surprise',
     'Setup audio en PLS',
     'Farm sommeil (rare).',
@@ -73,11 +73,11 @@ export default function InfinityPage() {
   return (
     <div className="card">
       <h2>Infinity</h2>
-      <p className="muted">Statut basé sur Twitch (via OAuth app credentials).</p>
+      <p className="muted">Statut base sur Twitch (via OAuth app credentials).</p>
       <div className="row">
         <LiveBadge live={status.live} />
         <button className="btn" onClick={refresh} disabled={loading}>
-          {loading ? 'Vérification...' : 'Rafraîchir'}
+          {loading ? 'Verification...' : 'Rafraichir'}
         </button>
       </div>
       {error && <p className="muted" style={{color:'#ff6961'}}>Erreur: {error}</p>}
@@ -103,7 +103,7 @@ export default function InfinityPage() {
         </>
       ) : (
         <>
-          <h3>Temps écoulé depuis le dernier stream</h3>
+          <h3>Temps ecoule depuis le dernier stream</h3>
           <strong>{elapsed || '-'}</strong>
           <div className="spacer" />
           <p className="muted">Temps de stream ce mois: {monthlyText}</p>
@@ -121,7 +121,7 @@ export default function InfinityPage() {
         </>
       )}
       <div className="spacer" />
-      <p className="muted">Dernière vérif: {new Date(status.checkedAt).toLocaleTimeString()}</p>
+      <p className="muted">Derniere verif: {new Date(status.checkedAt).toLocaleTimeString()}</p>
       <div className="spacer" />
       <section>
         <h3>Habitudes de stream (hebdo)</h3>
@@ -134,7 +134,7 @@ export default function InfinityPage() {
       </section>
       <div className="spacer" />
       <section>
-        <h3>Copium / Soon-o-mètre</h3>
+        <h3>Copium / Soon-o-metre</h3>
         <CopiumMeter lastStreamAt={status.lastStreamAt} startedAt={status.startedAt} />
       </section>
       <div className="spacer" />

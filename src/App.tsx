@@ -2,6 +2,8 @@ import { NavLink, Route, Routes, Navigate } from 'react-router-dom'
 import Home from './pages/Home'
 import Talents from './pages/Talents'
 import InfinityPage from './pages/Infinity'
+import PubPage from './pages/Pub'
+import StreamersPage from './pages/Streamers'
 
 export default function App() {
   return (
@@ -11,6 +13,8 @@ export default function App() {
         <nav className="nav">
           <NavLink to="/" end>Accueil</NavLink>
           <NavLink to="/talents">BMS Talents</NavLink>
+          <NavLink to="/streamers">BMS Streamers</NavLink>
+          <NavLink to="/pub">Pub</NavLink>
           <NavLink to="/has-joel-infinity">Has Joel Streamed Today? - Infinity</NavLink>
           <a href="https://thebmscrew.com/" target="_blank" rel="noreferrer">BMS Shop</a>
         </nav>
@@ -19,11 +23,13 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/talents" element={<Talents />} />
+          <Route path="/streamers" element={<StreamersPage />} />
+          <Route path="/pub" element={<PubPage />} />
           <Route path="/has-joel" element={<Navigate to="/has-joel-infinity" replace />} />
           <Route path="/has-joel-infinity" element={<InfinityPage />} />
         </Routes>
       </main>
-      <footer className="footer">© {new Date().getFullYear()} BMS</footer>
+      <footer className="footer">&copy; {new Date().getFullYear()} BMS</footer>
     </div>
   )
 }
