@@ -1,9 +1,5 @@
 const SUGGESTIONS = [
-  {
-    name: 'Imaginary Flame',
-    url: 'https://www.twitch.tv/imaginaryflame',
-    description: 'Pop culture, good vibes et rage controllee.',
-  },
+  
   {
     name: 'Forshana',
     url: 'https://www.twitch.tv/forshana',
@@ -110,7 +106,7 @@ export default function Alternatives() {
         ))}
       </div>
       <div className="muted" style={{ marginTop: 8, fontSize: 12 }}>
-        Suggestions BMS quand Joel est offline. Retrouve le module "BMS Streamers" via l'onglet dedie pour surveiller les statuts live.
+        Suggestions BMS quand Joel est offline. Pense aussi au module "BMS Streamers" ci-dessous pour voir qui est en live.
       </div>
     </div>
   )
